@@ -13,11 +13,9 @@ timezone: "<your timezone>"
 
 domain: "<your domain name>"
 
-cloudflare_email: "<your cloudflare email>"
+traefik_email: "<your cloudflare email>"
 
 cloudflare_api_key: "<your global cloudflare api key>"
-
-aws_email: "<your email>"
 
 aws_region: "<your aws region>"
 

@@ -158,9 +158,9 @@
       traefik.http.routers.authelia.rule: "Host(`auth.{{ domain }}`)"
       traefik.http.routers.authelia.entrypoints: "https"
       traefik.http.routers.authelia.tls: "true"
-      traefik.http.middlewares.authelia.forwardauth.address: "http://authelia:9091/api/verify?rd=https://auth.{{ domain }}"
-      traefik.http.middlewares.authelia.forwardauth.trustForwardHeader: "true"
-      traefik.http.middlewares.authelia.forwardauth.authResponseHeaders: "Remote-User, Remote-Groups, Remote-Name, Remote-Email"
+      traefik.http.middlewares.authelia.forwardAuth.address: "http://authelia:9091/api/verify?rd=https://auth.{{ domain }}"
+      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: "Remote-User, Remote-Groups, Remote-Name, Remote-Email"
     exposed_ports:
       - "9091"
     env:

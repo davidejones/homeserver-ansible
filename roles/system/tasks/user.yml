@@ -44,6 +44,18 @@
     name: "{{ username }}"
     shell: "{{ shell }}"
 
+# switching shell can create new dirs root for some reason giving errors such as
+# e.g error: Unable to open temporary file '/home/username/.config/fish/fishd.tmp.uEcTEX': Permission denied
+# so lets chmod user dir again
+- name: Chmod the user home directory
+  file:
+    path: "/home/{{ username }}"
+    state: directory
+    mode: 0755
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    recurse: yes
+
 - name: Disable fish greeting
   lineinfile:
     path: /home/{{ username }}/.config/fish/fish_variables

@@ -41,7 +41,7 @@
       certificatesResolvers:
         cloudflare:
           acme:
-            email: "{{ cloudflare_email }}"
+            email: "{{ traefik_email }}"
             storage: "acme.json"
             dnsChallenge:
               provider: "cloudflare"
@@ -50,7 +50,7 @@
                 - "1.0.0.1:53"
         route53:
           acme:
-            email: "{{ aws_email }}"
+            email: "{{ traefik_email }}"
             storage: "acme.json"
             dnsChallenge:
               provider: "route53"
@@ -80,7 +80,7 @@
       - "{{ docker_dir }}/traefik/data/acme.json:/acme.json"
       - "{{ docker_dir }}/traefik/data/traefik.yml:/traefik.yml:ro"
     env:
-      CF_API_EMAIL: "{{ cloudflare_email }}"
+      CF_API_EMAIL: "{{ traefik_email }}"
       CF_API_KEY: "{{ cloudflare_api_key }}"
       AWS_REGION: "{{ aws_region }}"
       AWS_HOSTED_ZONE_ID: "{{ aws_hosted_zone_id }}"
