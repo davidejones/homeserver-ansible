@@ -17,6 +17,16 @@ cloudflare_email: "<your cloudflare email>"
 
 cloudflare_api_key: "<your global cloudflare api key>"
 
+aws_email: "<your email>"
+
+aws_region: "<your aws region>"
+
+aws_hosted_zone_id: "<your aws hosted zone for domain>"
+
+aws_access_key_id: "<your aws access key id>"
+
+aws_secret_access_key: "<your aws secret access key>"
+
 traefik_basic_auth_hash: "<traefik hashed username and pass>"
 
 jwt_secret: "<athelia jwt secret>"
@@ -56,6 +66,8 @@ shell: /usr/bin/fish
 docker_dir: /home/{{ username }}/docker
 
 data_dir: /home/{{ username }}/data
+
+disks: []
 
 packages:
   - unzip

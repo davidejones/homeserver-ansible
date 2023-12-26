@@ -3,30 +3,30 @@
   loop:
     - authelia
     - traefik
-    - code_server
-    - dashdot
-    - duplicati
-    - filebrowser
-    - guacamole
+    #- code_server
+    #- dashdot
+    #- duplicati
+    #- filebrowser
+    #- guacamole
     - homarr
-    - homeassistant
+    #- homeassistant
     - jellyfin
     - jellyseerr
-    - monitoring
+    #- monitoring
     - mysql
-    - n8n
+    #- n8n
     - nextcloud
     - pihole
     - portainer
     - prowlarr
     - radarr
-    - requestrr
+    #- requestrr
     - sonarr
-    - syncthing
-    - unmanic
-    - uptime_kuma
+    #- syncthing
+    #- unmanic
+    #- uptime_kuma
     - transmission
-    - vaultwarden
+    #- vaultwarden
     - watchtower
     - wireguard
 
