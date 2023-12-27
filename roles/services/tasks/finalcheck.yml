@@ -40,6 +40,13 @@
     - "{{ docker_dir }}/watchtower"
     - "{{ docker_dir }}/wireguard"
 
+# the above makes acme.json too permissive again we should set other specific perms here
+- name: Fix specific perms
+  ansible.builtin.file:
+    path: "{{ docker_dir }}/traefik/data/acme.json"
+    state: file
+    mode: "0600"
+
 - name: Reboot the server
   ansible.builtin.reboot:
     msg: "Rebooting server to finish setup"

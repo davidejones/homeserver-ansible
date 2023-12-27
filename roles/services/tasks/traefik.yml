@@ -39,23 +39,14 @@
           endpoint: "unix:///var/run/docker.sock"
           exposedByDefault: false
       certificatesResolvers:
-        cloudflare:
+        myresolver:
           acme:
             email: "{{ traefik_email }}"
             storage: "acme.json"
             dnsChallenge:
-              provider: "cloudflare"
-              resolvers:
-                - "1.1.1.1:53"
-                - "1.0.0.1:53"
-        route53:
-          acme:
-            email: "{{ traefik_email }}"
-            storage: "acme.json"
-            dnsChallenge:
-              provider: "route53"
+              provider: "{{ traefik_dns_provider }}"
               delayBeforeCheck: 0
-
+              #disablepropagationcheck: true
     dest: "{{ docker_dir }}/traefik/data/traefik.yml"
     mode: "0644"
     owner: "{{ username }}"
@@ -98,7 +89,7 @@
       traefik.http.routers.traefik-secure.rule: "Host(`traefik.{{ domain }}`)"
       traefik.http.routers.traefik-secure.middlewares: "traefik-auth"
       traefik.http.routers.traefik-secure.tls: "true"
-      traefik.http.routers.traefik-secure.tls.certresolver: "route53"
+      traefik.http.routers.traefik-secure.tls.certresolver: "myresolver"
       traefik.http.routers.traefik-secure.tls.domains[0].main: "{{ domain }}"
       traefik.http.routers.traefik-secure.tls.domains[0].sans: "*.{{ domain }}"
       traefik.http.routers.traefik-secure.service: "api@internal"
