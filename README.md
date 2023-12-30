@@ -130,6 +130,12 @@ Run this command, enter your sudo password and vault password when prompted:
 ansible-playbook run.yml -K --ask-vault-pass -i ./hosts/hosts
 ```
 
+If you only want to update the Docker containers, you can run the playbook like this:
+
+```
+ansible-playbook run.yml -K --ask-vault-pass -i ./hosts/hosts --tags="services"
+```
+
 ## Post Installation and Troubleshooting
 
 If you need help setting services up or have any issues with your installation, see [post installation help](postinstallation.md).

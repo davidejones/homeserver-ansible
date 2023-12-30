@@ -1,5 +1,5 @@
 ---
-- name: Add required permissions to data and docker_apps directories
+- name: Add required permissions to data directories
   ansible.builtin.file:
     path: "{{ item }}"
     recurse: true
@@ -9,36 +9,17 @@
     mode: "0755"
   loop:
     - "{{ data_dir }}"
-    - "{{ docker_dir }}/authelia"
-    - "{{ docker_dir }}/bazarr"
-    - "{{ docker_dir }}/code_server"
-    - "{{ docker_dir }}/dashdot"
-    - "{{ docker_dir }}/deluge"
-    - "{{ docker_dir }}/duplicati"
-    - "{{ docker_dir }}/filebrowser"
-    - "{{ docker_dir }}/guacamole"
-    - "{{ docker_dir }}/heimdall"
-    - "{{ docker_dir }}/homarr"
-    - "{{ docker_dir }}/jellyfin"
-    - "{{ docker_dir }}/jellyseerr"
-    - "{{ docker_dir }}/monitoring"
-    - "{{ docker_dir }}/mysql"
-    - "{{ docker_dir }}/n8n"
-    - "{{ docker_dir }}/nextcloud"
-    - "{{ docker_dir }}/portainer"
-    - "{{ docker_dir }}/prowlarr"
-    - "{{ docker_dir }}/qbittorrent"
-    - "{{ docker_dir }}/radarr"
-    - "{{ docker_dir }}/requestrr"
-    - "{{ docker_dir }}/sonarr"
-    - "{{ docker_dir }}/syncthing"
-    - "{{ docker_dir }}/transmission"
-    - "{{ docker_dir }}/traefik"
-    - "{{ docker_dir }}/unmanic"
-    - "{{ docker_dir }}/uptime_kuma"
-    - "{{ docker_dir }}/vaultwarden"
-    - "{{ docker_dir }}/watchtower"
-    - "{{ docker_dir }}/wireguard"
+
+- name: Add required permissions to docker_apps directories
+  ansible.builtin.file:
+    path: "{{ docker_dir }}/{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0755"
+  loop:
+    - {{ service_list }}
 
 # the above makes acme.json too permissive again we should set other specific perms here
 - name: Fix specific perms

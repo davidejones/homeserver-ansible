@@ -103,6 +103,37 @@ docker_packages:
   - docker-buildx-plugin
   - docker-compose-plugin
 
+service_list:
+  - authelia
+  - traefik
+  #- code_server
+  #- dashdot
+  #- duplicati
+  #- filebrowser
+  #- guacamole
+  - homarr
+  #- homeassistant
+  - jellyfin
+  - jellyseerr
+  #- monitoring
+  - mysql
+  #- n8n
+  - nextcloud
+  - pihole
+  - portainer
+  - prowlarr
+  - radarr
+  #- requestrr
+  - sonarr
+  #- syncthing
+  #- unmanic
+  #- uptime_kuma
+  - transmission
+  #- vaultwarden
+  - watchtower
+  - wireguard
+
+
 #
 # SSH (geerlingguy.security)
 #

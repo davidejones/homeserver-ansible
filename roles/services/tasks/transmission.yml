@@ -25,6 +25,7 @@
       OPENVPN_PROVIDER: "{{vpn_provider}}"
       #OPENVPN_CONFIG: "{{vpn_config}}"
       NORDVPN_COUNTRY: "NL"
+      NORDVPN_CATEGORY: "legacy_p2p"
       OPENVPN_USERNAME: "{{vpn_username}}"
       OPENVPN_PASSWORD: "{{vpn_password}}"
       LOCAL_NETWORK: "{{local_network}}"
