@@ -1,5 +1,5 @@
 - name: Deploy docker apps
   ansible.builtin.include_tasks: "roles/services/tasks/{{ item }}.yml"
-  loop: "{{ service_list }}"
+  loop: "{{ services | map(attribute='name') | flatten | list }}"
 
 - include_tasks: finalcheck.yml
