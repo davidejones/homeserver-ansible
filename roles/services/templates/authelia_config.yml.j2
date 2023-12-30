@@ -25,10 +25,11 @@ access_control:
   default_policy: deny
   rules:
     # Rules applied to everyone
-    {% for dict_item in services | rejectattr('name', 'auth') %}
+#jinja2: trim_blocks: False
+{% for dict_item in services | rejectattr('name', 'equalto', 'authelia') %}
     - domain: "{{ dict_item['subdomain'] | default (dict_item['name']) }}.{{ domain }}"
-      policy: {{ dict_item['auth_policy']  | default ('two_factor') }}
-    {% endfor %}
+      policy: {{ dict_item['auth_policy'] | default ('two_factor') }}
+{% endfor %}
 
 
 session:

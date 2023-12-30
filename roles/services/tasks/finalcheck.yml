@@ -18,7 +18,7 @@
     owner: "{{ username }}"
     group: "{{ username }}"
     mode: "0755"
-  loop: {{ services | map(attribute='name') | flatten | list }}
+  with_items: "{{ services | map(attribute='name') | flatten | list }}"
 
 # the above makes acme.json too permissive again we should set other specific perms here
 - name: Fix specific perms

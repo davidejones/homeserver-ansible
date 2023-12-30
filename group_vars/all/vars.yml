@@ -103,35 +103,36 @@ docker_packages:
   - docker-buildx-plugin
   - docker-compose-plugin
 
-service_list:
-  - authelia
-  - traefik
-  #- code_server
-  #- dashdot
-  #- duplicati
-  #- filebrowser
-  #- guacamole
-  - homarr
-  #- homeassistant
-  - jellyfin
-  - jellyseerr
-  #- monitoring
-  - mysql
-  #- n8n
-  - nextcloud
-  - pihole
-  - portainer
-  - prowlarr
-  - radarr
-  #- requestrr
-  - sonarr
-  #- syncthing
-  #- unmanic
-  #- uptime_kuma
-  - transmission
-  #- vaultwarden
-  - watchtower
-  - wireguard
+services:
+    - { name: authelia, subdomain: auth }
+    - { name: traefik }
+    #- { name: code_server, subdomain: code }
+    #- { name: dashdot, subdomain: dash, auth_policy: bypass }
+    #- { name: duplicati }
+    #- { name: filebrowser, subdomain: files }
+    #- { name: guacamole, subdomain: guac }
+    - { name: homarr }
+    #- { name: homeassistant }
+    - { name: jellyfin }
+    - { name: jellyseerr }
+    #- { name: monitoring, subdomain: grafana }
+    - { name: mysql } #none
+    #- { name: n8n }
+    - { name: nextcloud, auth_policy: bypass }
+    - { name: pihole }
+    - { name: portainer }
+    - { name: prowlarr }
+    - { name: radarr }
+    #- { name: requestrr }
+    - { name: sonarr }
+    #- { name: syncthing, subdomain: sync }
+    #- { name: unmanic }
+    #- { name: uptime_kuma, subdomain: uptime }
+    - { name: transmission }
+    #- { name: vaultwarden, subdomain: vault, auth_policy: bypass }
+    - { name: watchtower } #none
+    - { name: wireguard, subdomain: wg }
+
 
 
 #
