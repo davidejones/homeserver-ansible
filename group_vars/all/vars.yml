@@ -13,9 +13,19 @@ timezone: "<your timezone>"
 
 domain: "<your domain name>"
 
-cloudflare_email: "<your cloudflare email>"
+traefik_email: "<your cloudflare email>"
+
+traefik_dns_provider: "<your dns provider choice>" # e.g cloudflare or route53
 
 cloudflare_api_key: "<your global cloudflare api key>"
+
+aws_region: "<your aws region>"
+
+aws_hosted_zone_id: "<your aws hosted zone for domain>"
+
+aws_access_key_id: "<your aws access key id>"
+
+aws_secret_access_key: "<your aws secret access key>"
 
 traefik_basic_auth_hash: "<traefik hashed username and pass>"
 
@@ -57,6 +67,8 @@ docker_dir: /home/{{ username }}/docker
 
 data_dir: /home/{{ username }}/data
 
+disks: []
+
 packages:
   - unzip
   - wget
@@ -90,6 +102,38 @@ docker_packages:
   - containerd.io
   - docker-buildx-plugin
   - docker-compose-plugin
+
+services:
+    - { name: authelia, subdomain: auth }
+    - { name: traefik }
+    #- { name: code_server, subdomain: code }
+    #- { name: dashdot, subdomain: dash, auth_policy: bypass }
+    #- { name: duplicati }
+    #- { name: filebrowser, subdomain: files }
+    #- { name: guacamole, subdomain: guac }
+    - { name: homarr }
+    #- { name: homeassistant }
+    - { name: jellyfin }
+    - { name: jellyseerr }
+    #- { name: monitoring, subdomain: grafana }
+    - { name: mysql } #none
+    #- { name: n8n }
+    - { name: nextcloud, auth_policy: bypass }
+    - { name: pihole }
+    - { name: portainer }
+    - { name: prowlarr }
+    - { name: radarr }
+    #- { name: requestrr }
+    - { name: sonarr }
+    #- { name: syncthing, subdomain: sync }
+    #- { name: unmanic }
+    #- { name: uptime_kuma, subdomain: uptime }
+    - { name: transmission }
+    #- { name: vaultwarden, subdomain: vault, auth_policy: bypass }
+    - { name: watchtower } #none
+    - { name: wireguard, subdomain: wg }
+
+
 
 #
 # SSH (geerlingguy.security)

@@ -25,14 +25,62 @@ In order for you to use these playbooks, you'll need a couple things:
 
 *If you don't plan on using Transmission then the VPN is not needed.
 
+## Setup (Before ansible)
+
+Install Ubuntu server 23.10 and select minimal install, select openssh install if promted. Configure basic networking during install.
+Once installed reconfigure networking to a static ip by editing `/etc/netplan/50-cloud-init.yaml`
+
+```yaml
+network:
+  version: 2
+  ethernets:
+    {{ networks.lan.interface }}:
+      dhcp4: true
+  wifis:
+    {{ networks.wifi.interface }}:
+      optional: true
+      access-points:
+        "{{ networks.wifi.access_point }}":
+          password: "{{ networks.wifi.password }}"
+      dhcp4: {{ networks.wifi.dhcp4 }}
+      dhcp6: {{ networks.wifi.dhcp6 }}
+      addresses: [<enter your ip>]
+      gateway4: <enter your gateway ip>
+      nameservers:
+        addresses:
+          - 8.8.8.8
+          - 8.8.4.4
+      routes:
+        - to: default
+          via: <enter your gateway ip>
+```
+
+Then run `sudo netplan apply` to apply the changes
+
+Configure ssh to run on port 69. 
+
+vim `/lib/systemd/system/ssh.socket`
+and update `ListenStream=22` to `ListenStream=69`
+now run
+```
+sudo systemctl daemon-reload
+sudo systemctl restart ssh
+```
+
+Then run `netstat -ant` and you should see 69 listed (`apt-get install net-tools` if you don't have netstat)
+
 ## Setup
 
 Once you've installed Ubuntu, you'll need an SSH Key for Ansible to use. You will need to create an one and copy it to the server. This can be done with the following commands:
 
+We add the email as a comment
+
 ```bash
-ssh-keygen -o -a 100 -t ed25519 -f <path to ssh file> -C <your_email>
+ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/homeserver -C <your_email>
 ssh-copy-id -i ~/.ssh/homeserver <user>@<server>
 ```
+
+If this is a re-installation, and you have a previous know host clear it out with ` ssh-keygen -f "~/.ssh/known_hosts" -R <server>`
 
 Note: I'd recommend storing the ssh file at `~/.ssh/homeserver`
 
@@ -66,6 +114,8 @@ user_password: "<your sudo password>"
 
 Make all the necessary changes to the `group_vars/all/vars.yml` and `hosts/hosts` files to match your environment. Extra packages can be added to `group_vars/all/vars.yml`. Any unwanted services can be removed in the `services/tasks/main.yml` file. See [variable help](variablehelp.md) for more information.
 
+check hosts are listed correctly by running `ansible servers --list-hosts` or `ansible servers --list-hosts -i ./hosts/hosts`
+
 ## Notes and Disclaimers
 
 This playbook opens your server up to the internet and potentially malicious attacks. Two factor authentication, Cloudflare and [Jeff Geerling's Security Role](https://github.com/geerlingguy/ansible-role-security) offer good layers of protection, but it's always good practice to be mindful of the risks. Further configuration in Cloudflare can strengthen your security.
@@ -77,7 +127,13 @@ This also changes the default listening port of SSH to 69. It can be changed in 
 Run this command, enter your sudo password and vault password when prompted:
 
 ```bash
-ansible-playbook run.yml -K --ask-vault-pass
+ansible-playbook run.yml -K --ask-vault-pass -i ./hosts/hosts
+```
+
+If you only want to update the Docker containers, you can run the playbook like this:
+
+```
+ansible-playbook run.yml -K --ask-vault-pass -i ./hosts/hosts --tags="services"
 ```
 
 ## Post Installation and Troubleshooting

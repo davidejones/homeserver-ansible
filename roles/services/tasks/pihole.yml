@@ -1,4 +1,29 @@
 ---
+- name: Create pihole directory
+  ansible.builtin.file:
+    path: "{{ data_dir }}/pihole/pihole"
+    state: directory
+    mode: "0755"
+    access_time: preserve
+    modification_time: preserve
+
+- name: Create pihole/dnsmasq.d directory
+  ansible.builtin.file:
+    path: "{{ data_dir }}/pihole/pihole/dnsmasq.d"
+    state: directory
+    mode: "0755"
+    access_time: preserve
+    modification_time: preserve
+
+# We should write out our local dns entries to /etc/pihole/custom.list in the container
+- name: Create custom.list dns entries
+  ansible.builtin.template:
+    src: custom.list.j2
+    dest: "{{ data_dir }}/pihole/pihole/custom.list"
+    mode: "0644"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
 - name: Create pihole container
   community.docker.docker_container:
     name: pihole
@@ -13,7 +38,8 @@
       WEBPASSWORD: "{{pihole_password}}"
     volumes:
       - "{{ docker_dir }}/pihole/config:/config"
-      - "{{ data_dir }}/pihole:/etc/dnsmasq.d"
+      - "{{ data_dir }}/pihole/dnsmasq.d:/etc/dnsmasq.d"
+      - "{{ data_dir }}/pihole/pihole/custom.list:/etc/pihole/custom.list"
     networks:
       - name: homelab
     ports:
